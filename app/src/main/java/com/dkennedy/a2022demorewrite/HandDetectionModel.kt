@@ -13,7 +13,7 @@ data class HandDetectionModel(private val modelName: String) {
     private val customObjectDetectorOptions = CustomObjectDetectorOptions.Builder(localModel)
         .setDetectorMode(CustomObjectDetectorOptions.STREAM_MODE)
         .enableClassification()
-        .setClassificationConfidenceThreshold(0.8f)
+        .setClassificationConfidenceThreshold(0.4f)
         .enableMultipleObjects()
         .build()
 

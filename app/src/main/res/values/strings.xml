@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">2022DemoRewrite</string>
+    <string name="settings">Settings</string>
+    <string name="reload_app">Reload App</string>
+    <string-array name="model_list">
+        <item>2060-5E-1</item>
+        <item>2060-30E-2</item>
+        <item>3080-200E-3</item>
+        <item>3080-Annotated-5E-EDET1-1</item>
+        <item>object_labeler</item>
+    </string-array>
+    <string-array name="camres_human_readable">
+        <item>720 x 480</item>
+        <item>1280 x 720</item>
+        <item>1280 x 1024</item>
+        <item>1600 x 1200</item>
+        <item>1920 x 1080</item>
+        <item>4 Megapixel</item>
+        <item>8 Megapixel</item>
+        <item>12 Megapixel</item>
+    </string-array>
+    <string-array name="camres_vals">
+        <item>720 480</item>
+        <item>1280 720</item>
+        <item>1280 1024</item>
+        <item>1600 1200</item>
+        <item>1920 1080</item>
+        <item>2688 1520</item>
+        <item>3840 2160</item>
+        <item>4000 3000</item>
+    </string-array>
 </resources>

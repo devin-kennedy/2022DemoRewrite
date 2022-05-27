@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="General">
+        <ListPreference
+            android:defaultValue="3080-200E-3"
+            android:dialogTitle="Model Selector"
+            android:entries="@array/model_list"
+            android:entryValues="@array/model_list"
+            android:key="modelSelector"
+            android:title="Model Selector"
+            android:summary="Select a model for object detection"
+            android:icon="@drawable/fake_neural_network"/>
+        <ListPreference
+            android:defaultValue="1280x720"
+            android:dialogTitle="Camera Resolution"
+            android:key="cameraRes"
+            android:title="Camera Resolution"
+            android:summary="Set the resolution of your camera"
+            android:entries="@array/camres_human_readable"
+            android:entryValues="@array/camres_vals"
+            android:icon="@drawable/camera_icon_front"/>
+    </PreferenceCategory>
+</PreferenceScreen>
