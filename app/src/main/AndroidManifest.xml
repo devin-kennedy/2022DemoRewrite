@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.a2022demorewrite"
-    android:versionName="Beta2.2">
+    android:versionName="Beta2.4">
     <uses-feature android:name="android.hardware.camera.any" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -28,7 +28,8 @@
         </activity>
         <activity
             android:name="com.dkennedy.a2022demorewrite.SettingsActivity"
-            android:label="Settings">
+            android:label="Settings"
+            android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
 
     </application>

@@ -8,6 +8,9 @@
         <item>3080-200E-3</item>
         <item>3080-Annotated-5E-EDET1-1</item>
         <item>object_labeler</item>
+        <item>6-7-2022-1</item>
+        <item>6-7-2022-2</item>
+        <item>asl_from_keras_pretrained_test0</item>
     </string-array>
     <string-array name="camres_human_readable">
         <item>720 x 480</item>
