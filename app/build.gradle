@@ -62,9 +62,13 @@ dependencies {
     // Object Detection
     implementation 'com.google.mlkit:object-detection-custom:17.0.0'
 
+    implementation 'org.tensorflow:tensorflow-lite-support:0.3.0'
+
     // Settings
     implementation 'androidx.preference:preference:1.2.0'
 
     // Image labeling
     implementation 'com.google.mlkit:image-labeling-custom:17.0.1'
+
+
 }

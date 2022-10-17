@@ -4,6 +4,8 @@ import android.content.Context
 import com.google.mlkit.common.model.LocalModel
 import com.google.mlkit.vision.objects.ObjectDetection
 import com.google.mlkit.vision.objects.custom.CustomObjectDetectorOptions
+import org.tensorflow.lite.support.common.FileUtil
+import java.nio.charset.Charset
 
 data class HandDetectionModel(private val modelName: String) {
     private val localModel = LocalModel.Builder()

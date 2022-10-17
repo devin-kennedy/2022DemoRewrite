@@ -11,6 +11,9 @@
         <item>6-7-2022-1</item>
         <item>6-7-2022-2</item>
         <item>asl_from_keras_pretrained_test0</item>
+        <item>asl_pretrained_test1</item>
+        <item>asl_pretrained_test2</item>
+        <item>unquant_test1_meta</item>
     </string-array>
     <string-array name="camres_human_readable">
         <item>720 x 480</item>

@@ -57,11 +57,7 @@ class MainActivity : AppCompatActivity(){
     private lateinit var def_preferences: SharedPreferences
     private var cameraSelector: CameraSelector? = null
     private var lensFacing =  CameraSelector.LENS_FACING_BACK
-    private var toClassify = mutableListOf<String>("asl_from_keras_pretrained_test0")
-    private lateinit var mode: String
-    private lateinit var handDetectionModel: HandDetectionModel
-    private lateinit var signClassifierModel: SignClassifierModel
-    private lateinit var imageAnalyzer: ImageAnalysis
+    private var toClassify = mutableListOf<String>("asl_from_keras_pretrained_test0", "asl_pretrained_test2")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,14 +95,8 @@ class MainActivity : AppCompatActivity(){
 
     private fun start_camera(modelName: String, camWidth: Int, camHeight: Int) {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-        if (modelName in toClassify) {
-            mode = "classify"
-            val imageClassifierModel = SignClassifierModel(modelName)
-        } else {
-            mode = "detect"
-            val handDetectionModel = HandDetectionModel(modelName)
-        }
-
+        //val handDetectionModel = HandDetectionModel(modelName)
+        val handDetectionModel = SignClassifierModel(modelName)
 
         cameraProviderFuture.addListener({
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
@@ -117,8 +107,8 @@ class MainActivity : AppCompatActivity(){
                     it.setSurfaceProvider(previewView.surfaceProvider)
                 }
 
-            if (mode == "detect"){
-                val imageAnalyzer = ImageAnalysis.Builder()
+            /*
+            val imageAnalyzer = ImageAnalysis.Builder()
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                     .setTargetResolution(Size(camWidth, camHeight))
                     .build().apply {
@@ -133,20 +123,20 @@ class MainActivity : AppCompatActivity(){
                             )
                         )
                     }
-            } else {
-                val imageAnalyzer = ImageAnalysis.Builder()
-                    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                    .setTargetResolution(Size(camWidth, camHeight))
-                    .build().apply {
-                        setAnalyzer(
-                            Executors.newSingleThreadExecutor(),
-                            FrameAnalyzerClassify(
-                                signClassifierModel,
-                                resultTextView
-                            )
+            */
+            val imageAnalyzer = ImageAnalysis.Builder()
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                .setTargetResolution(Size(camWidth, camHeight))
+                .build().apply {
+                    setAnalyzer(
+                        Executors.newSingleThreadExecutor(),
+                        FrameAnalyzerClassify(
+                            handDetectionModel,
+                            resultTextView
                         )
-                    }
-            }
+                    )
+                }
+
 
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
