@@ -16,12 +16,14 @@ package com.dkennedy.a2022demorewrite
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
 import android.util.Size
 import android.view.View
@@ -37,6 +39,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.preference.PreferenceManager
+import com.example.a2022demorewrite.R
 import com.example.a2022demorewrite.databinding.ActivityMainBinding
 import java.lang.Exception
 import java.util.concurrent.Executor
@@ -57,7 +60,11 @@ class MainActivity : AppCompatActivity(){
     private lateinit var def_preferences: SharedPreferences
     private var cameraSelector: CameraSelector? = null
     private var lensFacing =  CameraSelector.LENS_FACING_BACK
-    private var toClassify = mutableListOf<String>("asl_from_keras_pretrained_test0", "asl_pretrained_test2")
+    private var toClassify = mutableListOf<String>(
+        "asl_from_keras_pretrained_test0",
+        "asl_pretrained_test2",
+        "unquant_test1_meta"
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,13 +80,14 @@ class MainActivity : AppCompatActivity(){
         settingsButton = binding.SetButton
         reloadButton = binding.reloadButton
         def_preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val model = def_preferences.getString("modelSelector", "3080-200E-3").toString()
+        val model = def_preferences.getString("detectorSelector", "object_labeler").toString()
+        val classifier = def_preferences.getString("classifierSelector", "unquant_test1_meta").toString()
         camRes = def_preferences.getString("cameraRes", "1280 720").toString()
-        modelTextView.text = model
+        modelTextView.text = String.format(R.string.modelViewText.toString(), model, classifier)
         val camResList = camRes.split("\\s".toRegex()).toTypedArray()
 
         if (allPermissionsGranted()) {
-            start_camera(model, camResList[0].toInt(), camResList[1].toInt())
+            start_camera(model, classifier, camResList[0].toInt(), camResList[1].toInt(), binding)
         } else {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
@@ -87,16 +95,17 @@ class MainActivity : AppCompatActivity(){
         settingsButton.setOnClickListener { startSettings() }
         reloadButton.setOnClickListener { startActivity(intent) }
 
+
     }
 
     private fun startSettings() {
         startActivity(Intent(this, SettingsActivity::class.java))
     }
 
-    private fun start_camera(modelName: String, camWidth: Int, camHeight: Int) {
+    private fun start_camera(modelName: String, classifierName: String, camWidth: Int, camHeight: Int, binding: ActivityMainBinding) {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-        //val handDetectionModel = HandDetectionModel(modelName)
-        val handDetectionModel = SignClassifierModel(modelName)
+        val handDetectionModel = TfliteObjectDetectorV2(this)
+        val handClassifierModel = HandDetectionModel(classifierName, 0.7f)
 
         cameraProviderFuture.addListener({
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
@@ -107,7 +116,7 @@ class MainActivity : AppCompatActivity(){
                     it.setSurfaceProvider(previewView.surfaceProvider)
                 }
 
-            /*
+
             val imageAnalyzer = ImageAnalysis.Builder()
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                     .setTargetResolution(Size(camWidth, camHeight))
@@ -116,28 +125,16 @@ class MainActivity : AppCompatActivity(){
                             Executors.newSingleThreadExecutor(),
                             FrameAnalyzer(
                                 handDetectionModel,
+                                handClassifierModel,
                                 previewView.height.toFloat(),
                                 previewView.width.toFloat(),
                                 boundingBoxOverlay,
-                                resultTextView
+                                resultTextView,
+                                applicationContext,
+                                binding
                             )
                         )
                     }
-            */
-            val imageAnalyzer = ImageAnalysis.Builder()
-                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                .setTargetResolution(Size(camWidth, camHeight))
-                .build().apply {
-                    setAnalyzer(
-                        Executors.newSingleThreadExecutor(),
-                        FrameAnalyzerClassify(
-                            handDetectionModel,
-                            resultTextView
-                        )
-                    )
-                }
-
-
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 

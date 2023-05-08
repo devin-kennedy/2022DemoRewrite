@@ -3,12 +3,21 @@
     <PreferenceCategory android:title="General">
         <ListPreference
             android:defaultValue="3080-200E-3"
-            android:dialogTitle="Model Selector"
-            android:entries="@array/model_list"
-            android:entryValues="@array/model_list"
-            android:key="modelSelector"
-            android:title="Model Selector"
+            android:dialogTitle="Detector Selector"
+            android:entries="@array/detector_list"
+            android:entryValues="@array/detector_list"
+            android:key="detectorSelector"
+            android:title="Detector Selector"
             android:summary="Select a model for object detection"
+            android:icon="@drawable/fake_neural_network"/>
+        <ListPreference
+            android:defaultValue="unquant_test1_meta"
+            android:dialogTitle="Classifier Selector"
+            android:entries="@array/classifier_list"
+            android:entryValues="@array/classifier_list"
+            android:key="classifierSelector"
+            android:title="Classifier Selector"
+            android:summary="Select an image classifier"
             android:icon="@drawable/fake_neural_network"/>
         <ListPreference
             android:defaultValue="1280x720"

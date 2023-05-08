@@ -9,7 +9,8 @@
     <androidx.camera.view.PreviewView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/previewView" />
+        android:id="@+id/previewView" >
+    </androidx.camera.view.PreviewView>
 
     <com.dkennedy.a2022demorewrite.BoundingBoxOverlay
         android:layout_width="match_parent"
